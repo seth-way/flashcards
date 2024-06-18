@@ -13,7 +13,7 @@ Throughout the development process, I used TDD to drive the implementation of co
 [//]: <> (What steps does a person have to take to get your app cloned down and running?)
 
 > [!WARNING]
-> **[Node.js](https://nodejs.org/en) and [npm](https://www.npmjs.com/) are required to run this app.**<br>
+> **[Node.js](https://nodejs.org/en) & [npm](https://www.npmjs.com/) are required to run this app.**<br>
 > _Please ensure you have both installed on your machine before proceeding._
 
 ### Preview of App:
@@ -24,7 +24,7 @@ Throughout the development process, I used TDD to drive the implementation of co
 
 [//]: <> (Give some context for the project here. How long did you have to work on it? How far into the Turing program are you?)
 
-This project was completed during the 7th week of instruction during Turing's FE Software Development Bootcamp. TDD did slow down development, but also ensured code remained functional during all development & refactors. It took myself roughly 4 days or 15 hours to complete this console app.
+This project was completed during the 7th week of instruction during Turing's FE Software Development Bootcamp. TDD did slow down development, but also ensured code remained functional during all development & refactors. It took roughly 4 days or 15 hours to complete this console app.
 
 ### Contributors:
 
