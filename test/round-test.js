@@ -2,7 +2,7 @@ const chai = require('chai');
 const expect = chai.expect;
 
 const { createCard } = require('../src/card');
-const { createDeck } = require('../src/deck');
+const { createDeck, countCards } = require('../src/deck');
 const {
   createRound,
   takeTurn,
@@ -124,7 +124,7 @@ describe('takeTurn', () => {
     expect(round.currentCard).to.eql(card4);
   });
 
-  it('should store the id\'s of incorrect guess in the `incorrectGuesses` array', () => {
+  it("should store the id's of incorrect guess in the `incorrectGuesses` array", () => {
     const cards = prototypeData.map(card => createCard(...Object.values(card)));
     const deck = createDeck(cards);
     const round = createRound(deck);
@@ -139,7 +139,7 @@ describe('takeTurn', () => {
     takeTurn(answer1, round);
     takeTurn(answer1, round);
     expect(round.incorrectGuesses).to.eql([id2, id3]);
-  })
+  });
 
   it('should give appropriate feedback for correct/incorrect guesses', () => {
     const cards = prototypeData.map(card => createCard(...Object.values(card)));
@@ -153,9 +153,56 @@ describe('takeTurn', () => {
 
     const feedback2 = takeTurn(answer1, round);
     expect(feedback2).to.equal('incorrect!');
-  })
-});
+  });
 
+  it('should label incorrectly answered cards & add them to the end of the deck', () => {
+    const cards = prototypeData
+      .map(card => createCard(...Object.values(card)))
+      .slice(0, 3);
+    const deck = createDeck(cards);
+    const round = createRound(deck);
+
+    const correctAnswer1 = deck[0].correctAnswer;
+    const card2 = deck[1];
+    const expectedQuestion2Retry = 'RETRY: ' + card2.question;
+
+    takeTurn(correctAnswer1, round);
+    expect(round.incorrectGuesses.length).to.equal(0);
+    expect(countCards(round.deck)).to.equal(3);
+
+    takeTurn('wrong answer', round);
+    expect(round.incorrectGuesses.length).to.equal(1);
+    expect(countCards(round.deck)).to.equal(4);
+
+    const lastCard = round.deck[countCards(round.deck) - 1];
+    expect(lastCard.question).to.equal(expectedQuestion2Retry);
+  });
+
+  it('should should only add the `RETRY` label the 1st time a card is answered incorrectly', () => {
+    const cards = prototypeData
+      .map(card => createCard(...Object.values(card)))
+      .slice(0, 3);
+    const deck = createDeck(cards);
+    const round = createRound(deck);
+
+    const correctAnswer1 = deck[0].correctAnswer;
+    const correctAnswer3 = deck[2].correctAnswer;
+
+    const card2 = deck[1];
+    const expectedQuestion2Retry = 'RETRY: ' + card2.question;
+
+    takeTurn(correctAnswer1, round);
+    takeTurn('wrong answer', round);
+    takeTurn(correctAnswer3, round);
+    takeTurn('wrong answer', round);
+
+    expect(round.incorrectGuesses.length).to.equal(2);
+    expect(countCards(round.deck)).to.equal(5);
+
+    const lastCard = round.deck[countCards(round.deck) - 1];
+    expect(lastCard.question).to.equal(expectedQuestion2Retry);
+  });
+});
 
 describe('calculatePercentCorrect', () => {
   it('should be a function', function () {
@@ -204,7 +251,7 @@ describe('endRound', () => {
   beforeEach(() => {
     originalLog = console.log;
 
-    console.log = (message) => {
+    console.log = message => {
       loggedMessage = message;
     };
   });
@@ -231,7 +278,8 @@ describe('endRound', () => {
     takeTurn('wrong answer', round);
 
     endRound(round);
-    const message = '** Round over! ** You answered 50% of the questions correctly!'
+    const message =
+      '** Round over! ** You answered 50% of the questions correctly!';
     expect(loggedMessage).to.equal(message);
   });
 
@@ -247,9 +295,10 @@ describe('endRound', () => {
     takeTurn('wrong answer', round);
     takeTurn('wrong answer', round);
     takeTurn('wrong answer', round);
-    
+
     endRound(round);
-    const message = '** Round over! ** You answered 25% of the questions correctly!'
+    const message =
+      '** Round over! ** You answered 25% of the questions correctly!';
     expect(loggedMessage).to.equal(message);
   });
 });
