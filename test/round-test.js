@@ -12,12 +12,12 @@ const {
 } = require('../src/round');
 const { prototypeData } = require('../src/data');
 
-describe('createRound', function () {
-  it('should be a function', function () {
+describe('createRound', () => {
+  it('should be a function', () => {
     expect(createRound).to.be.a('function');
   });
 
-  it('should create a round & its properties', function () {
+  it('should create a round & its properties', () => {
     const cards = prototypeData.map(card => createCard(...Object.values(card)));
     const deck = createDeck(cards);
     const round = createRound(deck);
@@ -29,7 +29,7 @@ describe('createRound', function () {
     expect(round.incorrectGuesses).to.eql([]);
   });
 
-  it('should create a different round when given different arguments', function () {
+  it('should create a different round when given different arguments', () => {
     const card1 = createCard(
       1,
       'What allows you to define a set of related information using key-value pairs?',
@@ -246,18 +246,19 @@ describe('calculatePercentCorrect', () => {
 
 describe('endRound', () => {
   let originalLog;
-  let loggedMessage;
+  let loggedMessages = [];
 
   beforeEach(() => {
     originalLog = console.log;
 
     console.log = message => {
-      loggedMessage = message;
+      loggedMessages.push(message);
     };
   });
 
   afterEach(() => {
     console.log = originalLog;
+    loggedMessages = [];
   });
 
   it('should be a function', () => {
@@ -268,6 +269,8 @@ describe('endRound', () => {
     const cards = prototypeData.map(card => createCard(...Object.values(card)));
     const deck = createDeck(cards);
     const round = createRound(deck);
+    // subtract 5 mins & 25 secs from start time
+    round.start -= (5 * 60 * 1000) + (25 * 1000);
 
     const correctAnswer1 = deck[0].correctAnswer;
     const correctAnswer2 = deck[1].correctAnswer;
@@ -278,9 +281,13 @@ describe('endRound', () => {
     takeTurn('wrong answer', round);
 
     endRound(round);
+
     const message =
-      '** Round over! ** You answered 50% of the questions correctly!';
-    expect(loggedMessage).to.equal(message);
+      '** Round over!\n** You answered 50% of the questions correctly!';
+    expect(loggedMessages[0]).to.equal(message);
+
+    const message2 = '** It took 5 minutes & 25 seconds!';
+    expect(loggedMessages[1]).to.equal(message2);
   });
 
   it('should work with multiple round inputs', () => {
@@ -288,6 +295,8 @@ describe('endRound', () => {
     cards = cards.slice(0, 5);
     const deck = createDeck(cards);
     const round = createRound(deck);
+    // subtract 3 mins & 55 secs from start time
+    round.start -= (3 * 60 * 1000) + (55 * 1000);
 
     const correctAnswer1 = deck[0].correctAnswer;
 
@@ -297,8 +306,13 @@ describe('endRound', () => {
     takeTurn('wrong answer', round);
 
     endRound(round);
+
     const message =
-      '** Round over! ** You answered 25% of the questions correctly!';
-    expect(loggedMessage).to.equal(message);
+      '** Round over!\n** You answered 25% of the questions correctly!';
+    expect(loggedMessages[0]).to.equal(message);
+
+
+    const message2 = '** It took 3 minutes & 55 seconds!';
+    expect(loggedMessages[1]).to.equal(message2);
   });
 });
