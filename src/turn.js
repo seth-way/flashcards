@@ -4,13 +4,13 @@ const evaluateGuess = (guess, correctAnswer) => {
 };
 
 const takeTurn = (guess, round) => {
-  const currentCard = round.deck.shift();
-  round.turns += 1;
-  round.currentCard = round.deck[0];
-  if (guess === currentCard.correctAnswer) return 'correct!';
+  const feedback = evaluateGuess(guess, round.currentCard.correctAnswer);
+  if (feedback === 'incorrect!') round.incorrectGuesses.push(round.currentCard.id);
 
-  round.incorrectGuesses.push(currentCard.id);
-  return 'incorrect!';
+  round.turns += 1;
+  round.currentCard = round.deck[round.turns]
+
+  return feedback;
 };
 
 module.exports = { evaluateGuess, takeTurn };

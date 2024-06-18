@@ -1,7 +1,7 @@
 const createRound = deck => ({
   deck,
-  currentCard: deck[0],
   turns: 0,
+  currentCard: deck[0],
   incorrectGuesses: [],
 });
 
