@@ -5,6 +5,22 @@ const createRound = deck => ({
   incorrectGuesses: [],
 });
 
+const evaluateGuess = (guess, correctAnswer) => {
+  if (guess === correctAnswer) return 'correct!';
+  return 'incorrect!';
+};
+
+const takeTurn = (guess, round) => {
+  const feedback = evaluateGuess(guess, round.currentCard.correctAnswer);
+  if (feedback === 'incorrect!')
+    round.incorrectGuesses.push(round.currentCard.id);
+
+  round.turns += 1;
+  round.currentCard = round.deck[round.turns];
+
+  return feedback;
+};
+
 const calculatePercentCorrect = round => {
   if (!round.turns) return 0;
 
@@ -18,4 +34,10 @@ const endRound = round => {
   console.log(message);
 };
 
-module.exports = { createRound, calculatePercentCorrect, endRound };
+module.exports = {
+  createRound,
+  takeTurn,
+  evaluateGuess,
+  calculatePercentCorrect,
+  endRound,
+};
