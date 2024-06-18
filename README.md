@@ -16,6 +16,12 @@ Throughout the development process, I used TDD to drive the implementation of co
 > **[Node.js](https://nodejs.org/en) & [npm](https://www.npmjs.com/) are required to run this app.**<br>
 > _Please ensure you have both installed on your machine before proceeding._
 
+- _(optional) Fork this project to your own Github account._
+- Clone the repository to your local machine.
+- `cd` into the project folder.
+- Use the `npm install` command to install the project dependencies.
+- Use the `node index.js` command to run the console application.
+
 ### Preview of App:
 
 [//]: <> (Provide ONE gif or screenshot of your application - choose the "coolest" piece of functionality to show off.)
@@ -42,5 +48,5 @@ Created by [Seth Way](https://github.com/seth-way).
 
 [//]: <> (What are 2-3 wins you have from this project? What were some challenges you faced - and how did you get over them?)
 
-- This app has complete test-coverage for the JS gamne logic functions.
-- JS ES6 features are used wherever it is applicable.
+- This app has complete test-coverage for the JS game logic functions.
+- JS ES6 features are used wherever applicable.
