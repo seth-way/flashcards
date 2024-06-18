@@ -90,28 +90,44 @@ describe('calculatePercentCorrect', () => {
 });
 
 describe('endRound', () => {
-  it.skip('should be a function', function () {
+  let originalLog;
+  let loggedMessage;
+
+  beforeEach(() => {
+    originalLog = console.log;
+
+    console.log = (message) => {
+      loggedMessage = message;
+    };
+  });
+
+  afterEach(() => {
+    console.log = originalLog;
+  });
+
+  it('should be a function', () => {
     expect(endRound).to.be.a('function');
   });
 
-  it.skip('should print the appropriate message to the console', () => {
+  it('should print the appropriate message to the console', () => {
     const cards = prototypeData.map(card => createCard(...Object.values(card)));
     const deck = createDeck(cards);
     const round = createRound(deck);
 
     const correctAnswer1 = deck[0].correctAnswer;
-    const correctAnswer2 = deck[0].correctAnswer;
+    const correctAnswer2 = deck[1].correctAnswer;
 
     takeTurn(correctAnswer1, round);
     takeTurn(correctAnswer2, round);
     takeTurn('wrong answer', round);
     takeTurn('wrong answer', round);
-    // expect console log? 50%
+
     endRound(round);
-    expect(console.log.calledWith).to.equal('test');
+    const message = '** Round over! ** You answered 50% of the questions correctly!'
+    expect(loggedMessage).to.equal(message);
   });
 
-  it.skip('should work with multiple round inputs', () => {
+  it('should work with multiple round inputs', () => {
     let cards = prototypeData.map(card => createCard(...Object.values(card)));
     cards = cards.slice(0, 5);
     const deck = createDeck(cards);
@@ -123,7 +139,9 @@ describe('endRound', () => {
     takeTurn('wrong answer', round);
     takeTurn('wrong answer', round);
     takeTurn('wrong answer', round);
-    // expect console log? 25%
-    // expect(console.log.calledWith).to.equal(message);?
+    
+    endRound(round);
+    const message = '** Round over! ** You answered 25% of the questions correctly!'
+    expect(loggedMessage).to.equal(message);
   });
 });
