@@ -5,4 +5,8 @@ const createRound = deck => ({
   incorrectGuesses: [],
 });
 
-module.exports = { createRound };
+const calculatePercentCorrect = (round) => {};
+
+const endRound = (round) => {};
+
+module.exports = { createRound, calculatePercentCorrect, endRound };

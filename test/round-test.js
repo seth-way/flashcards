@@ -3,7 +3,7 @@ const expect = chai.expect;
 
 const { createCard } = require('../src/card');
 const { createDeck } = require('../src/deck');
-const { createRound } = require('../src/round');
+const { createRound, calculatePercentCorrect, endRound} = require('../src/round');
 const { prototypeData } = require('../src/data');
 
 describe('createRound', function () {
@@ -43,3 +43,15 @@ describe('createRound', function () {
     expect(round.currentCard).to.eql(card1);
   });
 });
+
+describe('calculatePercentCorrect', () => {
+  it('should be a function', function () {
+    expect(calculatePercentCorrect).to.be.a('function');
+  });
+})
+
+describe('endRound', () => {
+  it('should be a function', function () {
+    expect(endRound).to.be.a('function');
+  });
+})
