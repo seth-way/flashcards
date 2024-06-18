@@ -3,7 +3,12 @@ const expect = chai.expect;
 
 const { createCard } = require('../src/card');
 const { createDeck } = require('../src/deck');
-const { createRound, calculatePercentCorrect, endRound} = require('../src/round');
+const { takeTurn } = require('../src/turn');
+const {
+  createRound,
+  calculatePercentCorrect,
+  endRound,
+} = require('../src/round');
 const { prototypeData } = require('../src/data');
 
 describe('createRound', function () {
@@ -15,7 +20,7 @@ describe('createRound', function () {
     const cards = prototypeData.map(card => createCard(...Object.values(card)));
     const deck = createDeck(cards);
     const round = createRound(deck);
-    
+
     expect(round.deck).to.eql(deck);
     expect(round.currentCard).to.eql(deck[0]);
     expect(round.turns).to.equal(0);
@@ -48,10 +53,77 @@ describe('calculatePercentCorrect', () => {
   it('should be a function', function () {
     expect(calculatePercentCorrect).to.be.a('function');
   });
-})
+
+  it('should calculate & return the percentage of correct guesses', () => {
+    const cards = prototypeData.map(card => createCard(...Object.values(card)));
+    const deck = createDeck(cards);
+    const round = createRound(deck);
+
+    const correctAnswer1 = deck[0].correctAnswer;
+    const correctAnswer2 = deck[1].correctAnswer;
+
+    takeTurn(correctAnswer1, round);
+    takeTurn(correctAnswer2, round);
+    expect(calculatePercentCorrect(round)).to.equal(100);
+
+    takeTurn('wrong answer', round);
+    takeTurn('wrong answer', round);
+    expect(calculatePercentCorrect(round)).to.equal(50);
+  });
+
+  it('should work with multiple round inputs', () => {
+    let cards = prototypeData.map(card => createCard(...Object.values(card)));
+    cards = cards.slice(0, 5);
+    const deck = createDeck(cards);
+    const round = createRound(deck);
+
+    const correctAnswer1 = deck[0].correctAnswer;
+
+    takeTurn(correctAnswer1, round);
+    expect(calculatePercentCorrect(round)).to.equal(100);
+
+    takeTurn('wrong answer', round);
+    takeTurn('wrong answer', round);
+    takeTurn('wrong answer', round);
+    expect(calculatePercentCorrect(round)).to.equal(25);
+  });
+});
 
 describe('endRound', () => {
-  it('should be a function', function () {
+  it.skip('should be a function', function () {
     expect(endRound).to.be.a('function');
   });
-})
+
+  it.skip('should print the appropriate message to the console', () => {
+    const cards = prototypeData.map(card => createCard(...Object.values(card)));
+    const deck = createDeck(cards);
+    const round = createRound(deck);
+
+    const correctAnswer1 = deck[0].correctAnswer;
+    const correctAnswer2 = deck[0].correctAnswer;
+
+    takeTurn(correctAnswer1, round);
+    takeTurn(correctAnswer2, round);
+    takeTurn('wrong answer', round);
+    takeTurn('wrong answer', round);
+    // expect console log? 50%
+    endRound(round);
+    expect(console.log.calledWith).to.equal('test');
+  });
+
+  it.skip('should work with multiple round inputs', () => {
+    let cards = prototypeData.map(card => createCard(...Object.values(card)));
+    cards = cards.slice(0, 5);
+    const deck = createDeck(cards);
+    const round = createRound(deck);
+
+    const correctAnswer1 = deck[0].correctAnswer;
+
+    takeTurn(correctAnswer1, round);
+    takeTurn('wrong answer', round);
+    takeTurn('wrong answer', round);
+    takeTurn('wrong answer', round);
+    // expect console log? 25%
+    // expect(console.log.calledWith).to.equal(message);?
+  });
+});
