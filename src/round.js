@@ -12,12 +12,17 @@ const evaluateGuess = (guess, correctAnswer) => {
 
 const takeTurn = (guess, round) => {
   const feedback = evaluateGuess(guess, round.currentCard.correctAnswer);
-  if (feedback === 'incorrect!')
+  if (feedback === 'incorrect!') {
     round.incorrectGuesses.push(round.currentCard.id);
+    if (!round.currentCard.question.startsWith('RETRY: ')) {
+      round.currentCard.question = 'RETRY: ' + round.currentCard.question;
+    }
+
+    round.deck.push(round.currentCard);
+  }
 
   round.turns += 1;
   round.currentCard = round.deck[round.turns];
-
   return feedback;
 };
 
