@@ -44,17 +44,45 @@ const calculateDuration = round => {
   }
 
   return [minutes, seconds];
-}
+};
+
+const getCard = (round, id) => round.deck.find(card => card.id === id);
+
+const createReportCard = round => {
+  if (round.incorrectGuesses.length) {
+    const incorrectGuesses = {};
+    console.log('\n** Incorrectly Answered Questions:');
+
+    round.incorrectGuesses.forEach(id => {
+      if (!incorrectGuesses[id]) {
+        const card = getCard(round, id);
+
+        incorrectGuesses[id] = {
+          attempts: 0,
+          question: card.question.slice(7),
+          answer: card.correctAnswer
+        };
+      }
+      incorrectGuesses[id].attempts += 1;
+    });
+
+    Object.values(incorrectGuesses).forEach(({attempts, question, answer}) => {
+      console.log(question);
+      console.log(`* Correct Answer: ${answer} * Incorrect Attempts: ${attempts} *\n`)
+    })
+  }
+};
 
 const endRound = round => {
   const [minutes, seconds] = calculateDuration(round);
   const percentageCorrect = calculatePercentCorrect(round);
-  
+
   const message = `** Round over!\n** You answered ${percentageCorrect}% of the questions correctly!`;
   console.log(message);
 
   const message2 = `** It took ${minutes} minutes & ${seconds} seconds!`;
   console.log(message2);
+  createReportCard(round);
 };
 
 module.exports = {
@@ -62,5 +90,6 @@ module.exports = {
   takeTurn,
   evaluateGuess,
   calculatePercentCorrect,
+  createReportCard,
   endRound,
 };
