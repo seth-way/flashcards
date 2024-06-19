@@ -8,6 +8,7 @@ const {
   takeTurn,
   evaluateGuess,
   calculatePercentCorrect,
+  createReportCard,
   endRound,
 } = require('../src/round');
 const { prototypeData } = require('../src/data');
@@ -244,6 +245,61 @@ describe('calculatePercentCorrect', () => {
   });
 });
 
+describe('createReportCard', () => {
+  let originalLog;
+  let loggedMessages = [];
+
+  beforeEach(() => {
+    originalLog = console.log;
+
+    console.log = message => {
+      loggedMessages.push(message);
+    };
+  });
+
+  afterEach(() => {
+    console.log = originalLog;
+    loggedMessages = [];
+  });
+
+  it('should be a function', () => {
+    expect(createReportCard).to.be.a('function');
+  });
+
+  it('should print a list of incorrectly answered questions & how many attempts each took', () => {
+    const cards = prototypeData
+      .map(card => createCard(...Object.values(card)))
+      .slice(0, 4);
+
+    const deck = createDeck(cards);
+    const round = createRound(deck);
+
+    const correctAnswer1 = deck[0].correctAnswer;
+    const correctAnswer2 = deck[1].correctAnswer;
+    const correctAnswer3 = deck[2].correctAnswer;
+    const correctAnswer4 = deck[3].correctAnswer;
+    const question3 = deck[2].question;
+    const question4 = deck[3].question;
+
+    takeTurn(correctAnswer1, round);
+    takeTurn(correctAnswer2, round);
+    takeTurn('wrong answer', round);
+    takeTurn('wrong answer', round);
+    takeTurn('wrong answer', round);
+
+    createReportCard(round);
+
+    const message = '\n** Incorrectly Answered Questions:';
+    expect(loggedMessages[0]).to.equal(message);
+    expect(loggedMessages[1]).to.equal(question3);
+    const message2 = `* Correct Answer: ${correctAnswer3} * Incorrect Attempts: 2 *\n`;
+    expect(loggedMessages[2]).to.equal(message2);
+    expect(loggedMessages[3]).to.equal(question4);
+    const message3 = `* Correct Answer: ${correctAnswer4} * Incorrect Attempts: 1 *\n`;
+    expect(loggedMessages[4]).to.equal(message3);
+  });
+});
+
 describe('endRound', () => {
   let originalLog;
   let loggedMessages = [];
@@ -270,7 +326,7 @@ describe('endRound', () => {
     const deck = createDeck(cards);
     const round = createRound(deck);
     // subtract 5 mins & 25 secs from start time
-    round.start -= (5 * 60 * 1000) + (25 * 1000);
+    round.start -= 5 * 60 * 1000 + 25 * 1000;
 
     const correctAnswer1 = deck[0].correctAnswer;
     const correctAnswer2 = deck[1].correctAnswer;
@@ -296,7 +352,7 @@ describe('endRound', () => {
     const deck = createDeck(cards);
     const round = createRound(deck);
     // subtract 3 mins & 55 secs from start time
-    round.start -= (3 * 60 * 1000) + (55 * 1000);
+    round.start -= 3 * 60 * 1000 + 55 * 1000;
 
     const correctAnswer1 = deck[0].correctAnswer;
 
@@ -310,7 +366,6 @@ describe('endRound', () => {
     const message =
       '** Round over!\n** You answered 25% of the questions correctly!';
     expect(loggedMessages[0]).to.equal(message);
-
 
     const message2 = '** It took 3 minutes & 55 seconds!';
     expect(loggedMessages[1]).to.equal(message2);
