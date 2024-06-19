@@ -1,4 +1,5 @@
-# <picture><img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Hourglass%20Done.png" alt="Hourglass Done" width="25" height="25" /></picture> Flashcards <picture><img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Bookmark%20Tabs.png" alt="Bookmark Tabs" width="25" height="25" /></picture>
+
+# <div align="center"><img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Hourglass%20Done.png" alt="Hourglass Done" width="25" height="25" /> Flashcards <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Bookmark%20Tabs.png" alt="Bookmark Tabs" width="25" height="25" /></div>
 
 ### Abstract:
 
@@ -25,6 +26,17 @@ Throughout the development process, I used TDD to drive the implementation of co
 ### Preview of App:
 
 [//]: <> (Provide ONE gif or screenshot of your application - choose the "coolest" piece of functionality to show off.)
+
+<div align="center">
+
+#### <ins>Starting the App</ins>
+    
+<img src="assets/start.gif" alt="app start demo" align="center" style="width:60%" />
+
+#### <ins>Post Round Report Card</ins>
+
+<img src="assets/report-card.gif" alt="report card demo" align="center" style="width:60%" />
+</div>
 
 ### Context:
 
@@ -53,8 +65,8 @@ Created by [Seth Way](https://github.com/seth-way).
 - Completed additional functionality
     - Recycles cards when user guesses wrong answer so that they appear later in the round.
     - Adds a timer to track & report how long a round took to complete.
-    - Creates a report card to show missed questions, number of failed attempts & correct answers.  
+    - Creates a report card to show missed questions, number of failed attempts & correct answers.
 
-<picture>![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)</picture>
+<br><picture>![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)</picture>
 <picture>![Mocha](https://img.shields.io/badge/-mocha-%238D6748?style=for-the-badge&logo=mocha&logoColor=white)</picture>
 <picture>![Chai](https://img.shields.io/badge/Chai-A30701.svg?style=for-the-badge&logo=Chai&logoColor=white)</picture>
