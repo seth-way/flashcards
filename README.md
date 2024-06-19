@@ -50,6 +50,10 @@ Created by [Seth Way](https://github.com/seth-way).
 
 - This app has complete test-coverage for the JS game logic functions.
 - JS ES6 features are used wherever applicable.
+- Completed additional functionality
+    - Recycles cards when user guesses wrong answer so that they appear later in the round.
+    - Adds a timer to track & report how long a round took to complete.
+    - Creates a report card to show missed questions, number of failed attempts & correct answers.  
 
 <picture>![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)</picture>
 <picture>![Mocha](https://img.shields.io/badge/-mocha-%238D6748?style=for-the-badge&logo=mocha&logoColor=white)</picture>
